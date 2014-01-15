@@ -27,7 +27,6 @@ public final class DefaultHttpServletPurser extends AbstractHttpServletPurser {
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	protected Map<String, Object> doPurse(final HttpServletRequest aReq, final HttpServletResponse aRes) {
 		try {
 			aReq.setCharacterEncoding(charset);

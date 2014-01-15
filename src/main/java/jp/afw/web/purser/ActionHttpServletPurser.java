@@ -5,7 +5,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-
 /**
  * このアノテーションは、アクションに引き渡すパラメータを解析するパーサーを設定するアノテーションです。
  * 

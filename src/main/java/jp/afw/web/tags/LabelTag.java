@@ -8,6 +8,7 @@ import javax.servlet.jsp.JspException;
 import jp.afw.business.label.Label;
 import jp.afw.business.label.LabelFactory;
 import jp.afw.core.util.StringUtility;
+import jp.afw.web.tags.base.ParameterTagSupport;
 
 /**
  * このクラスは、ラベル表示を行うタグクラスです。

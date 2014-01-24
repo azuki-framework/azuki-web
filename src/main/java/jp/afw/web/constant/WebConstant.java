@@ -44,7 +44,8 @@ public final class WebConstant {
 		protocol = p.getProperty("host.protocol", "http");
 		hostName = p.getProperty("host.name", StringUtility.EMPTY);
 		hostPort = p.getProperty("host.port", StringUtility.EMPTY);
-		webApp = p.getProperty("webApp", StringUtility.EMPTY);
+		
+		webApp = p.getProperty("webapp.name", StringUtility.EMPTY);
 	}
 
 	/**

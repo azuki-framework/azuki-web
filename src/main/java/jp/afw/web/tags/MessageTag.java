@@ -8,6 +8,7 @@ import javax.servlet.jsp.JspException;
 import jp.afw.business.message.Message;
 import jp.afw.business.message.MessageFactory;
 import jp.afw.core.util.StringUtility;
+import jp.afw.web.tags.base.ParameterTagSupport;
 
 /**
  * このクラスは、メッセージ表示を行うタグクラスです。

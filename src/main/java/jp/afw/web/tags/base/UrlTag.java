@@ -1,4 +1,4 @@
-package jp.afw.web.tags;
+package jp.afw.web.tags.base;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,6 +7,7 @@ import javax.servlet.jsp.JspException;
 
 import jp.afw.core.util.StringUtility;
 import jp.afw.web.constant.WebConstant;
+import jp.afw.web.tags.AbstractBodyRenderingTag;
 
 /**
  * このクラスは、URLをレンダリングするタグクラスです。

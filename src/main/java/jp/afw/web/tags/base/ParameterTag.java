@@ -1,9 +1,11 @@
-package jp.afw.web.tags;
+package jp.afw.web.tags.base;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.BodyTag;
 import javax.servlet.jsp.tagext.Tag;
+
+import jp.afw.web.tags.AbstractTag;
 
 /**
  * このクラスは、パラメータの設定を行うタグクラスです。

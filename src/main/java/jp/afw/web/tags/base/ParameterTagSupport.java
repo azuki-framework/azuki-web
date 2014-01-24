@@ -1,4 +1,4 @@
-package jp.afw.web.tags;
+package jp.afw.web.tags.base;
 
 import java.util.Map;
 

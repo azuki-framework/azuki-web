@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import jp.afw.core.lang.LoggingObject;
+import jp.afw.web.WebServiceException;
 
 /**
  * このクラスは、HTTPサーブレットの解析を行うための基底クラスです。
@@ -42,7 +43,7 @@ public abstract class AbstractHttpServletPurser extends LoggingObject implements
 	}
 
 	@Override
-	public Map<String, Object> purse(final HttpServletRequest aReq, final HttpServletResponse aRes) {
+	public Map<String, Object> purse(final HttpServletRequest aReq, final HttpServletResponse aRes) throws WebServiceException {
 		return doPurse(aReq, aRes);
 	}
 
@@ -52,7 +53,8 @@ public abstract class AbstractHttpServletPurser extends LoggingObject implements
 	 * @param aReq リクエスト情報
 	 * @param aRes レスポンス情報
 	 * @return パラメーター
+	 * @throws WebServiceException Webサービス層に起因する問題が発生した場合
 	 */
-	protected abstract Map<String, Object> doPurse(final HttpServletRequest aReq, final HttpServletResponse aRes);
+	protected abstract Map<String, Object> doPurse(final HttpServletRequest aReq, final HttpServletResponse aRes) throws WebServiceException;
 
 }

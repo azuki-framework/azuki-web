@@ -1,7 +1,9 @@
 package jp.afw.web.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -88,7 +90,10 @@ public abstract class AbstractActionMappingServlet extends AbstractServlet {
 		}
 
 		try {
-			appendActionSupport(action, aReq, aRes);
+			initializeActionSupport(action);
+			supportActionSupport(action, aReq, aRes);
+
+			action.initialize();
 			View view = action.action();
 			if (null != view) {
 				view.view(aReq, aRes);
@@ -100,55 +105,78 @@ public abstract class AbstractActionMappingServlet extends AbstractServlet {
 		} catch (WebServiceException ex) {
 			fatal(ex);
 			aRes.sendError(500);
+		} finally {
+			action.destroy();
+			destroyActionSupport();
 		}
 	}
 
-	protected void appendActionSupport(final Action aAction, final HttpServletRequest aReq, final HttpServletResponse aRes)
-			throws WebServiceException {
+	private List<HttpServletPurser> pursers;
+
+	protected void initializeActionSupport(final Action aAction) throws WebServiceException {
 		try {
-			// Session support
-			if (aAction instanceof SessionSupport) {
-				Store<String, Object> session = new HttpSessionStore(aReq.getSession(true));
-				((SessionSupport) aAction).setSession(session);
-			}
-
-			// Context support
-			if (aAction instanceof ContextSupport) {
-				((ContextSupport) aAction).setContext(getContext());
-			}
-
-			// Property support
-			if (aAction instanceof PropertySupport) {
-				Property property = PropertyManager.get(aAction.getClass());
-				if (null == property) {
-					property = PropertyManager.load(aAction.getClass(), getContext());
-				}
-				((PropertySupport) aAction).setProperty(property);
-			}
-
-			// Parameter support (request parameter)
+			pursers = new ArrayList<HttpServletPurser>();
 			if (aAction instanceof ParameterSupport) {
-				Map<String, Object> params = new HashMap<String, Object>();
 				ActionHttpServletPurser aPurser = aAction.getClass().getAnnotation(ActionHttpServletPurser.class);
 				if (null != aPurser) {
 					Class<? extends HttpServletPurser>[] classes = aPurser.value();
 					for (Class<? extends HttpServletPurser> clazz : classes) {
 						HttpServletPurser purser = clazz.newInstance();
-						Map<String, Object> m = purser.purse(aReq, aRes);
-						params.putAll(m);
+						purser.initialize();
+						pursers.add(purser);
 					}
 				} else {
-					DefaultHttpServletPurser purser = new DefaultHttpServletPurser();
-					Map<String, Object> m = purser.purse(aReq, aRes);
-					params.putAll(m);
+					HttpServletPurser purser = new DefaultHttpServletPurser();
+					purser.initialize();
+					pursers.add(purser);
 				}
-				Parameter parameter = new Parameter(params);
-				((ParameterSupport) aAction).setParameter(parameter);
 			}
-		} catch (InstantiationException ex) {
-			throw new WebServiceException(ex);
 		} catch (IllegalAccessException ex) {
+			throw new WebServiceException(ex);
+		} catch (InstantiationException ex) {
 			throw new WebServiceException(ex);
 		}
 	}
+
+	protected void supportActionSupport(final Action aAction, final HttpServletRequest aReq, final HttpServletResponse aRes)
+			throws WebServiceException {
+
+		// Session support
+		if (aAction instanceof SessionSupport) {
+			Store<String, Object> session = new HttpSessionStore(aReq.getSession(true));
+			((SessionSupport) aAction).setSession(session);
+		}
+
+		// Context support
+		if (aAction instanceof ContextSupport) {
+			((ContextSupport) aAction).setContext(getContext());
+		}
+
+		// Property support
+		if (aAction instanceof PropertySupport) {
+			Property property = PropertyManager.get(aAction.getClass());
+			if (null == property) {
+				property = PropertyManager.load(aAction.getClass(), getContext());
+			}
+			((PropertySupport) aAction).setProperty(property);
+		}
+
+		// Parameter support (request parameter)
+		if (aAction instanceof ParameterSupport) {
+			Map<String, Object> params = new HashMap<String, Object>();
+			for (HttpServletPurser purser : pursers) {
+				Map<String, Object> m = purser.purse(aReq, aRes);
+				params.putAll(m);
+			}
+			Parameter parameter = new Parameter(params);
+			((ParameterSupport) aAction).setParameter(parameter);
+		}
+	}
+
+	protected void destroyActionSupport() {
+		for (HttpServletPurser purser : pursers) {
+			purser.destroy();
+		}
+	}
+
 }

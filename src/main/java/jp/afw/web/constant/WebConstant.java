@@ -25,6 +25,9 @@ public final class WebConstant {
 	/** web application */
 	private static String webApp;
 
+	/** servlet file upload temporary directory */
+	private static String servletFileUploadTemporaryDirectory;
+
 	/**
 	 * コンストラクタ
 	 * <p>
@@ -44,8 +47,10 @@ public final class WebConstant {
 		protocol = p.getProperty("host.protocol", "http");
 		hostName = p.getProperty("host.name", StringUtility.EMPTY);
 		hostPort = p.getProperty("host.port", StringUtility.EMPTY);
-		
+
 		webApp = p.getProperty("webapp.name", StringUtility.EMPTY);
+
+		servletFileUploadTemporaryDirectory = p.getProperty("servlet.fileUpload.temporary.directory");
 	}
 
 	/**
@@ -82,6 +87,15 @@ public final class WebConstant {
 	 */
 	public static String getProtocol() {
 		return protocol;
+	}
+
+	/**
+	 * サーブレットファイルアップロード一時ディレクトリパスを取得する。
+	 * 
+	 * @return ディレクトリパス
+	 */
+	public static String getServletFileUploadTemporaryDirectory() {
+		return servletFileUploadTemporaryDirectory;
 	}
 
 	/**

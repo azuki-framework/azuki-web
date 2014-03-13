@@ -5,11 +5,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jp.afw.core.util.FileUtility;
+import jp.afw.core.util.PathUtility;
+import jp.afw.core.util.UUIDUtility;
 import jp.afw.web.WebServiceException;
+import jp.afw.web.constant.WebConstant;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -18,8 +23,10 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 public final class HttpServletMultipartPurser extends AbstractHttpServletPurser {
 
-//	private String encoding = "Windows-31J";
+	// private String encoding = "Windows-31J";
 	private String encoding = "UTF-8";
+
+	private String temporaryDirectory;
 
 	/**
 	 * コンストラクタ
@@ -29,13 +36,23 @@ public final class HttpServletMultipartPurser extends AbstractHttpServletPurser 
 	}
 
 	@Override
+	protected void doInitialize() {
+		String path = WebConstant.getServletFileUploadTemporaryDirectory();
+		temporaryDirectory = PathUtility.cat(path, UUIDUtility.generateToShortString());
+		File dir = new File(temporaryDirectory);
+		dir.mkdirs();
+	}
+
+	@Override
+	protected void doDestroy() {
+		FileUtility.remove(temporaryDirectory);
+	}
+
+	@Override
 	protected Map<String, Object> doPurse(final HttpServletRequest aReq, final HttpServletResponse aRes) throws WebServiceException {
 		Map<String, Object> parameter = new HashMap<String, Object>();
 
 		if (ServletFileUpload.isMultipartContent(aReq)) {
-			System.out.println("multi");
-			String path = "c:\\temp";
-
 			DiskFileItemFactory factory = new DiskFileItemFactory();
 			ServletFileUpload upload = new ServletFileUpload(factory);
 
@@ -50,15 +67,16 @@ public final class HttpServletMultipartPurser extends AbstractHttpServletPurser 
 				while (iterator.hasNext()) {
 					FileItem fItem = (FileItem) iterator.next();
 
-					System.out.println("name : " + fItem.getFieldName());
 					if (fItem.isFormField()) {
-						System.out.println("value : " + fItem.getString(encoding));
+						parameter.put(fItem.getFieldName(), fItem.getString(encoding));
 					} else {
-						System.out.println("file : " + fItem.getName());
 						String fileName = fItem.getName();
 						if ((fileName != null) && (!fileName.equals(""))) {
 							fileName = (new File(fileName)).getName();
-							fItem.write(new File(path + "/" + fileName));
+							String filePath = PathUtility.cat(temporaryDirectory, fileName);
+							File file = new File(filePath);
+							fItem.write(file);
+							parameter.put(fItem.getFieldName(), file);
 						}
 					}
 				}
@@ -67,7 +85,17 @@ public final class HttpServletMultipartPurser extends AbstractHttpServletPurser 
 			} catch (Exception ex) {
 				throw new WebServiceException(ex);
 			}
+
 		} else {
+
+			for (String key : (Set<String>) aReq.getParameterMap().keySet()) {
+				String[] values = aReq.getParameterValues(key);
+				if (1 == values.length) {
+					parameter.put(key, values[0]);
+				} else {
+					parameter.put(key, values);
+				}
+			}
 
 		}
 

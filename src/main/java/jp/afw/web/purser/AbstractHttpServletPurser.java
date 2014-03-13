@@ -43,9 +43,29 @@ public abstract class AbstractHttpServletPurser extends LoggingObject implements
 	}
 
 	@Override
-	public Map<String, Object> purse(final HttpServletRequest aReq, final HttpServletResponse aRes) throws WebServiceException {
+	public final void initialize() {
+		doInitialize();
+	}
+
+	@Override
+	public final void destroy() {
+		doDestroy();
+	}
+
+	@Override
+	public final Map<String, Object> purse(final HttpServletRequest aReq, final HttpServletResponse aRes) throws WebServiceException {
 		return doPurse(aReq, aRes);
 	}
+
+	/**
+	 * 初期化処理を行う。
+	 */
+	protected abstract void doInitialize();
+
+	/**
+	 * 解放処理を行う。
+	 */
+	protected abstract void doDestroy();
 
 	/**
 	 * HTTPサーブレットを解析する。

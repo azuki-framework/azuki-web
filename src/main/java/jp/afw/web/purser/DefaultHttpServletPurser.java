@@ -27,6 +27,18 @@ public final class DefaultHttpServletPurser extends AbstractHttpServletPurser {
 	}
 
 	@Override
+	protected void doInitialize() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void doDestroy() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
 	protected Map<String, Object> doPurse(final HttpServletRequest aReq, final HttpServletResponse aRes) {
 		try {
 			aReq.setCharacterEncoding(charset);
@@ -34,16 +46,18 @@ public final class DefaultHttpServletPurser extends AbstractHttpServletPurser {
 			error(ex);
 		}
 
-		Map<String, Object> m = new HashMap<String, Object>();
+		Map<String, Object> parameter = new HashMap<String, Object>();
+
 		for (String key : (Set<String>) aReq.getParameterMap().keySet()) {
 			String[] values = aReq.getParameterValues(key);
 			if (1 == values.length) {
-				m.put(key, values[0]);
+				parameter.put(key, values[0]);
 			} else {
-				m.put(key, values);
+				parameter.put(key, values);
 			}
 		}
-		return m;
+
+		return parameter;
 	}
 
 }

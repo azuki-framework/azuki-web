@@ -214,19 +214,20 @@ public abstract class AbstractTag extends LoggingObject implements Tag {
 	 */
 	protected final Object getAttribute(final String aScope, final String aName, final String aKey) {
 		Object value = null;
-		if ("page".equals(aScope.toLowerCase())) {
-			if (StringUtility.isNotEmpty(aKey)) {
-				value = getPageAttribute(aName, aKey);
-			} else {
-				value = getPageAttribute(aName);
-			}
-		} else if (StringUtility.isEmpty(aScope) || "request".equals(aScope.toLowerCase())) {
+		if (StringUtility.isEmpty(aScope) || "request".equals(aScope.toLowerCase())) {
 			if (StringUtility.isNotEmpty(aKey)) {
 				value = getRequestAttribute(aName, aKey);
 			} else {
 				value = getRequestAttribute(aName);
 			}
+		} else if ("page".equals(aScope.toLowerCase())) {
+			if (StringUtility.isNotEmpty(aKey)) {
+				value = getPageAttribute(aName, aKey);
+			} else {
+				value = getPageAttribute(aName);
+			}
 		}
+
 		return value;
 	}
 }

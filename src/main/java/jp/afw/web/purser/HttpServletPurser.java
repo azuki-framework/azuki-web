@@ -17,6 +17,16 @@ import jp.afw.web.WebServiceException;
 public interface HttpServletPurser {
 
 	/**
+	 * 初期化処理を行う。
+	 */
+	public void initialize();
+
+	/**
+	 * 解放処理を行う。
+	 */
+	public void destroy();
+
+	/**
 	 * HTTPサーブレットを解析する。
 	 * 
 	 * @param aReq リクエスト情報

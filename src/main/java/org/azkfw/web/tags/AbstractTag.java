@@ -19,11 +19,13 @@ package org.azkfw.web.tags;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.azkfw.core.lang.LoggingObject;
 import org.azkfw.core.util.StringUtility;
+import org.azkfw.web.store.HttpSessionStore;
 
 /**
  * このクラスは、タグ機能を実装する基底クラスです。
@@ -137,6 +139,44 @@ public abstract class AbstractTag extends LoggingObject implements Tag {
 	}
 
 	/**
+	 * セッションコンテキストから値を取得する。
+	 * 
+	 * @param aName 名前
+	 * @return 値
+	 */
+	protected final Object getSessionAttribute(final String aName) {
+		Object value = null;
+		HttpSession session = pageContext.getSession();
+		if (null != session) {
+			@SuppressWarnings("unchecked")
+			Map<String, Object> userArea = (Map<String, Object>) session.getAttribute(HttpSessionStore.SESSION_NAME_USER_AREA);
+			if (null != userArea) {
+				value = userArea.get(aName);
+			}
+		}
+		return value;
+	}
+
+	/**
+	 * セッションコンテキストから値を取得する。
+	 * 
+	 * @param aName 名前
+	 * @param aKey キー
+	 * @return 値
+	 */
+	@SuppressWarnings("unchecked")
+	protected final Object getSessionAttribute(final String aName, final String aKey) {
+		Object value = null;
+		Object o = getSessionAttribute(aName);
+		if (null != o) {
+			if (o instanceof Map<?, ?>) {
+				value = ((Map<String, Object>) o).get(aKey);
+			}
+		}
+		return value;
+	}
+
+	/**
 	 * リクエストコンテキストに値を設定する。
 	 * 
 	 * @param aName 名前
@@ -193,7 +233,7 @@ public abstract class AbstractTag extends LoggingObject implements Tag {
 	 * @param aValue 値
 	 */
 	protected final void setAttribute(final String aScope, final String aName, final Object aValue) {
-		if ("page".equals(aScope.toLowerCase())) {
+		if (null != aScope && "page".equals(aScope.toLowerCase())) {
 			setPageAttribute(aName, aValue);
 		} else if (StringUtility.isEmpty(aScope) || "request".equals(aScope.toLowerCase())) {
 			setRequestAttribute(aName, aValue);

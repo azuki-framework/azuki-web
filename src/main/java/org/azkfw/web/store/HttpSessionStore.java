@@ -33,7 +33,7 @@ import org.azkfw.persistence.store.AbstractStore;
  */
 public final class HttpSessionStore extends AbstractStore<String, Object> {
 
-	private static final String SESSION_NAME_USER_AREA = "__USER_AREA__";
+	public static final String SESSION_NAME_USER_AREA = "__USER_AREA__";
 
 	/**
 	 * Http session

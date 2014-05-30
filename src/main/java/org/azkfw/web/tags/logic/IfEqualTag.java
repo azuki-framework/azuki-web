@@ -38,7 +38,11 @@ public final class IfEqualTag extends AbstractValueEqualTag {
 		if (null == aSrc && null == aDst) {
 			return true;
 		} else if (null != aSrc && null != aDst) {
-			return aSrc.equals(aDst);
+			if (aSrc.getClass() == aDst.getClass()) {
+				return aSrc.equals(aDst);
+			} else {
+				return false;
+			}
 		} else {
 			return false;
 		}

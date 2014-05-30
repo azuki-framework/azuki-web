@@ -20,29 +20,25 @@ package org.azkfw.web.tags.logic;
 /**
  * このクラスは、値が異なる場合にボディが実行されるタグクラスです。
  * 
- * @since 1.0.0
- * @version 1.0.0 2013/01/23
+ * @since 1.0.1
+ * @version 1.0.1 2014/05/30
  * @author Kawakicchi
  */
-public final class IfNotEqualTag extends AbstractValueEqualTag {
+public final class IfNotEqualValueTag extends AbstractEqualValueTag {
 
 	/**
 	 * コンストラクタ
 	 */
-	public IfNotEqualTag() {
-		super(IfNotEqualTag.class);
+	public IfNotEqualValueTag() {
+		super(IfNotEqualValueTag.class);
 	}
 
 	@Override
-	protected boolean isEqual(final Object aSrc, final Object aDst) {
+	protected boolean isEqual(final Object aSrc, final String aDst) {
 		if (null == aSrc && null == aDst) {
 			return false;
 		} else if (null != aSrc && null != aDst) {
-			if (aSrc.getClass() == aDst.getClass()) {
-				return !aSrc.equals(aDst);
-			} else {
-				return true;
-			}
+			return !aSrc.toString().equals(aDst);
 		} else {
 			return true;
 		}

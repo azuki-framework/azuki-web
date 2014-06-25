@@ -185,7 +185,7 @@ public abstract class AbstractActionMappingServlet extends AbstractServlet {
 				Map<String, Object> m = purser.purse(aReq, aRes);
 				params.putAll(m);
 			}
-			Parameter parameter = new Parameter(params);
+			Parameter parameter = Parameter.Builder.build(params);
 			((ParameterSupport) aAction).setParameter(parameter);
 		}
 	}

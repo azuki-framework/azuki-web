@@ -20,7 +20,7 @@ package org.azkfw.web.servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 
-import org.azkfw.persistence.context.Context;
+import org.azkfw.context.Context;
 import org.azkfw.web.context.WebContext;
 
 /**

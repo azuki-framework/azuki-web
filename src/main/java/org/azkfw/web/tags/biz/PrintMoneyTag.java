@@ -19,7 +19,7 @@ package org.azkfw.web.tags.biz;
 
 import javax.servlet.jsp.JspException;
 
-import org.azkfw.core.util.StringUtility;
+import org.azkfw.util.StringUtility;
 import org.azkfw.web.tags.AbstractPrintTag;
 
 /**

@@ -17,7 +17,7 @@
  */
 package org.azkfw.web;
 
-import org.azkfw.core.lang.PrimitiveException;
+import org.azkfw.lang.PrimitiveException;
 
 /**
  * このクラスは、ウェブサービス層に起因する例外クラスです。

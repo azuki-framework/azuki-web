@@ -23,7 +23,7 @@ import java.io.InputStream;
 
 import javax.servlet.ServletContext;
 
-import org.azkfw.persistence.context.AbstractContext;
+import org.azkfw.context.AbstractContext;
 
 /**
  * このクラスは、Web用のコンテキスト機能を実装するクラスです。

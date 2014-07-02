@@ -19,7 +19,7 @@ package org.azkfw.web.constant;
 
 import java.util.Properties;
 
-import org.azkfw.core.util.StringUtility;
+import org.azkfw.util.StringUtility;
 
 /**
  * このクラスは、Web定数を保持するクラスです。

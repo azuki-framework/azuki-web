@@ -24,7 +24,7 @@ import javax.servlet.jsp.JspException;
 
 import org.azkfw.business.message.Message;
 import org.azkfw.business.message.MessageFactory;
-import org.azkfw.core.util.StringUtility;
+import org.azkfw.util.StringUtility;
 import org.azkfw.web.tags.base.ParameterTagSupport;
 
 /**

@@ -23,7 +23,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.azkfw.core.lang.LoggingObject;
+import org.azkfw.lang.LoggingObject;
 
 /**
  * このクラスは、ビュー機能の実装を行うための基底クラスです。

@@ -19,7 +19,7 @@ package org.azkfw.web.util;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.azkfw.core.util.StringUtility;
+import org.azkfw.util.StringUtility;
 import org.azkfw.web.constant.WebConstant;
 
 /**

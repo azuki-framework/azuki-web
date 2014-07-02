@@ -21,7 +21,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.azkfw.core.util.DateUtility;
+import org.azkfw.util.DateUtility;
 
 /**
  * このクラスは、値が今日の場合に実装するタグクラスです。

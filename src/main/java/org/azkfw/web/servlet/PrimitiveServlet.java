@@ -19,8 +19,8 @@ package org.azkfw.web.servlet;
 
 import javax.servlet.http.HttpServlet;
 
-import org.azkfw.core.log.Logger;
-import org.azkfw.core.log.LoggerFactory;
+import org.azkfw.log.Logger;
+import org.azkfw.log.LoggerFactory;
 
 /**
  * このクラスは、サーブレット機能を実装した基底クラスです。

@@ -27,15 +27,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.azkfw.core.log.LoggerFactory;
-import org.azkfw.core.util.StringUtility;
-import org.azkfw.persistence.ConfigurationFormatException;
+import org.apache.log4j.xml.DOMConfigurator;
+import org.azkfw.configuration.ConfigurationFormatException;
+import org.azkfw.log.LoggerFactory;
 import org.azkfw.plugin.PluginManager;
 import org.azkfw.plugin.PluginManager.PluginEntity;
 import org.azkfw.plugin.PluginServiceException;
+import org.azkfw.util.StringUtility;
 import org.azkfw.web.view.JSPView;
-
-import org.apache.log4j.xml.DOMConfigurator;
 
 /**
  * このクラスは、プラグイン機能をロードするサーブレットクラスです。

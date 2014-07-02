@@ -17,7 +17,7 @@
  */
 package org.azkfw.web.tags.html;
 
-import org.azkfw.core.util.StringUtility;
+import org.azkfw.util.StringUtility;
 
 /**
  * このクラスは、URLをレンダリングするタグクラスです。

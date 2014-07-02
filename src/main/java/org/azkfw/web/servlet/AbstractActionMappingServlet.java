@@ -27,7 +27,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.azkfw.persistence.context.ContextSupport;
+import org.azkfw.context.ContextSupport;
 import org.azkfw.persistence.parameter.Parameter;
 import org.azkfw.persistence.parameter.ParameterSupport;
 import org.azkfw.persistence.proterty.Property;

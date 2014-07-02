@@ -27,16 +27,15 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.azkfw.core.util.FileUtility;
-import org.azkfw.core.util.PathUtility;
-import org.azkfw.core.util.UUIDUtility;
-import org.azkfw.web.WebServiceException;
-import org.azkfw.web.constant.WebConstant;
-
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.azkfw.util.FileUtility;
+import org.azkfw.util.PathUtility;
+import org.azkfw.util.UUIDUtility;
+import org.azkfw.web.WebServiceException;
+import org.azkfw.web.constant.WebConstant;
 
 public final class HttpServletMultipartPurser extends AbstractHttpServletPurser {
 

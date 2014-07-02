@@ -17,8 +17,8 @@
  */
 package org.azkfw.web.action;
 
-import org.azkfw.persistence.context.Context;
-import org.azkfw.persistence.context.ContextSupport;
+import org.azkfw.context.Context;
+import org.azkfw.context.ContextSupport;
 import org.azkfw.persistence.parameter.Parameter;
 import org.azkfw.persistence.parameter.ParameterSupport;
 import org.azkfw.persistence.proterty.Property;

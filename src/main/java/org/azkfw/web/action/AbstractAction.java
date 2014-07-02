@@ -17,7 +17,7 @@
  */
 package org.azkfw.web.action;
 
-import org.azkfw.core.lang.LoggingObject;
+import org.azkfw.lang.LoggingObject;
 import org.azkfw.web.WebServiceException;
 import org.azkfw.web.view.View;
 

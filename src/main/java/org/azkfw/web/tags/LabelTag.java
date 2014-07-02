@@ -24,7 +24,7 @@ import javax.servlet.jsp.JspException;
 
 import org.azkfw.business.label.Label;
 import org.azkfw.business.label.LabelFactory;
-import org.azkfw.core.util.StringUtility;
+import org.azkfw.util.StringUtility;
 import org.azkfw.web.tags.base.ParameterTagSupport;
 
 /**

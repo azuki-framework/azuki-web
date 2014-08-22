@@ -27,20 +27,22 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jp.azkfw.servlet.AbstractServlet;
+import jp.azkfw.servlet.store.HttpSessionStore;
+
+import org.azkfw.business.property.Property;
+import org.azkfw.business.property.PropertyManager;
+import org.azkfw.business.property.PropertySupport;
 import org.azkfw.context.ContextSupport;
-import org.azkfw.persistence.parameter.Parameter;
-import org.azkfw.persistence.parameter.ParameterSupport;
-import org.azkfw.persistence.proterty.Property;
-import org.azkfw.persistence.proterty.PropertyManager;
-import org.azkfw.persistence.proterty.PropertySupport;
+import org.azkfw.parameter.Parameter;
+import org.azkfw.parameter.ParameterSupport;
 import org.azkfw.persistence.session.SessionSupport;
-import org.azkfw.persistence.store.Store;
+import org.azkfw.store.Store;
 import org.azkfw.web.WebServiceException;
 import org.azkfw.web.action.Action;
 import org.azkfw.web.action.purser.ActionHttpServletPurser;
 import org.azkfw.web.purser.DefaultHttpServletPurser;
 import org.azkfw.web.purser.HttpServletPurser;
-import org.azkfw.web.store.HttpSessionStore;
 import org.azkfw.web.view.View;
 
 /**
@@ -160,8 +162,8 @@ public abstract class AbstractActionMappingServlet extends AbstractServlet {
 
 		// Session support
 		if (aAction instanceof SessionSupport) {
-			Store<String, Object> session = new HttpSessionStore(aReq.getSession(true));
-			((SessionSupport) aAction).setSession(session);
+			HttpSessionStore session = new HttpSessionStore(aReq.getSession(true));
+			((SessionSupport) aAction).setSession((Store<String,Object>) session);
 		}
 
 		// Context support

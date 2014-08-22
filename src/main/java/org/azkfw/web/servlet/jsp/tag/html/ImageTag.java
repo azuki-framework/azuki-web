@@ -15,7 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.azkfw.web.tags.html;
+package org.azkfw.web.servlet.jsp.tag.html;
+
+import jp.azkfw.servlet.jsp.tag.html.AbstractHtmlTag;
 
 import org.azkfw.web.constant.WebConstant;
 
@@ -26,68 +28,68 @@ import org.azkfw.web.constant.WebConstant;
  * @version 1.0.0 2012/10/18
  * @author Kawakicchi
  */
-public class LinkTag extends AbstractHtmlTag {
+public class ImageTag extends AbstractHtmlTag {
 
 	/**
-	 * rel
+	 * src
 	 */
-	private String rel = null;
+	private String src = null;
 
 	/**
-	 * href
+	 * absolute
 	 */
-	private String href = null;
-
-	/**
-	 * type
-	 */
-	private String type = null;
-
 	private boolean absolute = false;
 
-	public final void setRel(final String aRel) {
-		rel = aRel;
+	/**
+	 * ソースを設定する。
+	 * 
+	 * @param aSrc ソース
+	 */
+	public final void setSrc(final String aSrc) {
+		src = aSrc;
 	}
 
-	public final void setHref(final String aHref) {
-		href = aHref;
+	/**
+	 * ソースを取得する。
+	 * 
+	 * @return ソース
+	 */
+	protected final String getSrc() {
+		return src;
 	}
 
-	public final void setType(final String aType) {
-		type = aType;
-	}
-
-	protected final String getRel() {
-		return rel;
-	}
-
-	protected final String getHref() {
-		return href;
-	}
-
-	protected final String getType() {
-		return type;
-	}
-
+	/**
+	 * 絶対URLかどうかを設定する。
+	 * 
+	 * @param aAbsolute 絶対URLの場合、<code>true</code>を設定する。
+	 */
 	public final void setAbsolute(final boolean aAbsolute) {
 		absolute = aAbsolute;
 	}
 
+	/**
+	 * 絶対URLか判断する。
+	 * 
+	 * @return 絶対URLの場合、<code>true</code>を返す。
+	 */
 	protected final boolean isAbsolute() {
 		return absolute;
 	}
 
+	protected String getSource() {
+		String source = WebConstant.getUrl(getSrc(), isAbsolute());
+		return source;
+	}
+
 	@Override
 	protected final String getTagName() {
-		return "link";
+		return "img";
 	}
 
 	@Override
 	protected void doAppendAttributes() {
 		super.doAppendAttributes();
 
-		addAttribute("rel", getRel());
-		addAttribute("href", WebConstant.getUrl(getHref(), isAbsolute()));
-		addAttribute("type", getType());
+		addAttribute("src", getSource());
 	}
 }

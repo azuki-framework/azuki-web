@@ -15,7 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.azkfw.web.tags.html;
+package org.azkfw.web.servlet.jsp.tag.html;
+
+import jp.azkfw.servlet.jsp.tag.html.AbstractBodyHtmlTag;
 
 import org.azkfw.web.constant.WebConstant;
 

@@ -15,7 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.azkfw.web.tags.html;
+package org.azkfw.web.servlet.jsp.tag.html;
+
+import jp.azkfw.servlet.jsp.tag.html.AbstractBodyHtmlTag;
+
+import org.azkfw.web.constant.WebConstant;
 
 /**
  * このクラスは、URLをレンダリングするタグクラスです。
@@ -24,22 +28,40 @@ package org.azkfw.web.tags.html;
  * @version 1.0.0 2012/10/18
  * @author Kawakicchi
  */
-public class PasswordTag extends AbstractInputTag {
+public class ScriptTag extends AbstractBodyHtmlTag {
 
 	/**
-	 * コンストラクタ
+	 * src
 	 */
-	public PasswordTag() {
-		super(PasswordTag.class);
+	private String src = null;
+
+	private boolean absolute = false;
+
+	public final void setSrc(final String aSrc) {
+		src = aSrc;
+	}
+
+	protected final String getSrc() {
+		return src;
+	}
+
+	public final void setAbsolute(final boolean aAbsolute) {
+		absolute = aAbsolute;
+	}
+
+	protected final boolean isAbsolute() {
+		return absolute;
 	}
 
 	@Override
-	protected final String getType() {
-		return "password";
+	protected final String getTagName() {
+		return "script";
 	}
 
 	@Override
 	protected void doAppendAttributes() {
 		super.doAppendAttributes();
+
+		addAttribute("src", WebConstant.getUrl(getSrc(), isAbsolute()));
 	}
 }

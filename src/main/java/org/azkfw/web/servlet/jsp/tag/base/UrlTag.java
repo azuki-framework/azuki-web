@@ -15,36 +15,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.azkfw.web.tags;
+package org.azkfw.web.servlet.jsp.tag.base;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.jsp.JspException;
 
-import org.azkfw.business.label.Label;
-import org.azkfw.business.label.LabelFactory;
+import jp.azkfw.servlet.jsp.tag.AbstractBodyRenderingTag;
+import jp.azkfw.servlet.jsp.tag.base.ParameterTagSupport;
+
 import org.azkfw.util.StringUtility;
-import org.azkfw.web.tags.base.ParameterTagSupport;
+import org.azkfw.web.constant.WebConstant;
 
 /**
- * このクラスは、ラベル表示を行うタグクラスです。
+ * このクラスは、URLをレンダリングするタグクラスです。
  * 
  * @since 1.0.0
- * @version 1.0.0 2013/07/02
+ * @version 1.0.0 2012/10/18
  * @author Kawakicchi
  */
-public class LabelTag extends AbstractBodyRenderingTag implements ParameterTagSupport {
+public class UrlTag extends AbstractBodyRenderingTag implements ParameterTagSupport {
 
 	/**
-	 * 名前空間
+	 * エイリアス
 	 */
-	private String namespace;
+	private String alias = "";
 
 	/**
-	 * メッセージ名
+	 * 絶対パスフラグ
 	 */
-	private String name;
+	private boolean absolute = false;
 
 	/**
 	 * パラメータ情報
@@ -54,27 +55,27 @@ public class LabelTag extends AbstractBodyRenderingTag implements ParameterTagSu
 	/**
 	 * コンストラクタ
 	 */
-	public LabelTag() {
-		super(LabelTag.class);
+	public UrlTag() {
+		super(UrlTag.class);
 		parameter = new HashMap<String, Object>();
 	}
 
 	/**
-	 * 名前空間を設定する。
+	 * エイリアスを設定する。
 	 * 
-	 * @param aNamespace 名前空間
+	 * @param aAlias エイリアス
 	 */
-	public final void setNamespace(final String aNamespace) {
-		namespace = aNamespace;
+	public final void setAlias(final String aAlias) {
+		alias = aAlias;
 	}
 
 	/**
-	 * ラベル名を設定する。
+	 * 絶対URLかどうかを設定する。
 	 * 
-	 * @param aName ラベル名
+	 * @param aAbsolute 絶対URLの場合、<code>true</code>を設定する。
 	 */
-	public final void setName(final String aName) {
-		name = aName;
+	public final void setAbsolute(final boolean aAbsolute) {
+		absolute = aAbsolute;
 	}
 
 	@Override
@@ -88,39 +89,31 @@ public class LabelTag extends AbstractBodyRenderingTag implements ParameterTagSu
 	}
 
 	/**
-	 * 名前空間を取得する。
+	 * エイリアスを取得する。
 	 * 
-	 * @return 名前空間
+	 * @return エイリアス
 	 */
-	protected final String getNamespace() {
-		return namespace;
+	protected final String getAlias() {
+		return alias;
 	}
 
 	/**
-	 * ラベル名を取得する。
+	 * 絶対URLか判断する。
 	 * 
-	 * @return ラベル名
+	 * @return 絶対URLの場合、<code>true</code>を返す。
 	 */
-	protected final String getName() {
-		return name;
+	protected final boolean isAbsolute() {
+		return absolute;
 	}
 
 	@Override
-	protected void doRendering(final StringBuffer aRender) throws JspException {
-		String ns = getNamespace();
-		String nm = getName();
-
-		Label lbl = null;
-		if (StringUtility.isNotEmpty(ns)) {
-			lbl = LabelFactory.create(ns, nm);
-		} else {
-			lbl = LabelFactory.create(nm);
+	protected final void doRendering(final StringBuffer aRender) throws JspException {
+		String str = WebConstant.getUrl(getAlias(), isAbsolute());
+		for (String key : parameter.keySet()) {
+			String word = "\\$\\{" + key + "\\}";
+			str = str.replaceAll(word, StringUtility.toStringEmpty(parameter.get(key)));
 		}
 
-		if (null != lbl) {
-			String str = lbl.generate(parameter);
-			aRender.append(toStringEscapeHTML(str));
-		}
+		aRender.append(str);
 	}
-
 }

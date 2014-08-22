@@ -15,7 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.azkfw.web.tags.html;
+package org.azkfw.web.servlet.jsp.tag.html;
+
+import jp.azkfw.servlet.jsp.tag.html.AbstractHtmlTag;
+
+import org.azkfw.web.constant.WebConstant;
 
 /**
  * このクラスは、URLをレンダリングするタグクラスです。
@@ -24,23 +28,68 @@ package org.azkfw.web.tags.html;
  * @version 1.0.0 2012/10/18
  * @author Kawakicchi
  */
-public class TextboxTag extends AbstractInputTag {
+public class LinkTag extends AbstractHtmlTag {
 
 	/**
-	 * コンストラクタ
+	 * rel
 	 */
-	public TextboxTag() {
-		super(TextboxTag.class);
+	private String rel = null;
+
+	/**
+	 * href
+	 */
+	private String href = null;
+
+	/**
+	 * type
+	 */
+	private String type = null;
+
+	private boolean absolute = false;
+
+	public final void setRel(final String aRel) {
+		rel = aRel;
+	}
+
+	public final void setHref(final String aHref) {
+		href = aHref;
+	}
+
+	public final void setType(final String aType) {
+		type = aType;
+	}
+
+	protected final String getRel() {
+		return rel;
+	}
+
+	protected final String getHref() {
+		return href;
+	}
+
+	protected final String getType() {
+		return type;
+	}
+
+	public final void setAbsolute(final boolean aAbsolute) {
+		absolute = aAbsolute;
+	}
+
+	protected final boolean isAbsolute() {
+		return absolute;
 	}
 
 	@Override
-	protected final String getType() {
-		return "text";
+	protected final String getTagName() {
+		return "link";
 	}
 
 	@Override
 	protected void doAppendAttributes() {
 		super.doAppendAttributes();
-	}
 
+		addAttribute("rel", getRel());
+		addAttribute("href", WebConstant.getUrl(getHref(), isAbsolute()));
+		addAttribute("type", getType());
+	}
 }

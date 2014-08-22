@@ -15,31 +15,56 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.azkfw.web.tags.base;
+package org.azkfw.web.servlet.jsp.tag.html;
 
-import java.util.Map;
+import jp.azkfw.servlet.jsp.tag.html.AbstractBodyHtmlTag;
+
+import org.azkfw.web.constant.WebConstant;
 
 /**
- * このインターフェースは、パラメーター機能のサポートを行うためのインターフェースです。
+ * このクラスは、アンカーを実装するタグクラスです。
  * 
  * @since 1.0.0
- * @version 1.0.0 2013/01/31
+ * @version 1.0.0 2013/01/15
  * @author Kawakicchi
  */
-public interface ParameterTagSupport {
+public class AnchorTag extends AbstractBodyHtmlTag {
 
 	/**
-	 * パラメーターを設定する。
-	 * 
-	 * @param aKey キー
-	 * @param aValue 値
+	 * Href
 	 */
-	public void setParameter(final String aKey, final Object aValue);
+	private String href;
 
 	/**
-	 * パラメータを設定する。
-	 * 
-	 * @param aParams パラメータ
+	 * Absolute
 	 */
-	public void setParameters(final Map<String, Object> aParams);
+	private boolean absolute = false;
+
+	public final void setHref(final String aHref) {
+		href = aHref;
+	}
+
+	public final void setAbsolute(final boolean aAbsolute) {
+		absolute = aAbsolute;
+	}
+
+	protected final String getHref() {
+		return href;
+	}
+
+	protected final boolean isAbsolute() {
+		return absolute;
+	}
+
+	@Override
+	protected final String getTagName() {
+		return "a";
+	}
+
+	@Override
+	protected void doAppendAttributes() {
+		super.doAppendAttributes();
+
+		addAttribute("href", WebConstant.getUrl(getHref(), isAbsolute()));
+	}
 }

@@ -15,26 +15,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.azkfw.web.tags;
+package org.azkfw.web.servlet.jsp.tag;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.jsp.JspException;
 
-import org.azkfw.business.message.Message;
-import org.azkfw.business.message.MessageFactory;
+import jp.azkfw.servlet.jsp.tag.AbstractBodyRenderingTag;
+import jp.azkfw.servlet.jsp.tag.base.ParameterTagSupport;
+
+import org.azkfw.business.label.Label;
+import org.azkfw.business.label.LabelFactory;
 import org.azkfw.util.StringUtility;
-import org.azkfw.web.tags.base.ParameterTagSupport;
 
 /**
- * このクラスは、メッセージ表示を行うタグクラスです。
+ * このクラスは、ラベル表示を行うタグクラスです。
  * 
  * @since 1.0.0
- * @version 1.0.0 2013/01/16
+ * @version 1.0.0 2013/07/02
  * @author Kawakicchi
  */
-public class MessageTag extends AbstractBodyRenderingTag implements ParameterTagSupport {
+public class LabelTag extends AbstractBodyRenderingTag implements ParameterTagSupport {
 
 	/**
 	 * 名前空間
@@ -54,8 +56,8 @@ public class MessageTag extends AbstractBodyRenderingTag implements ParameterTag
 	/**
 	 * コンストラクタ
 	 */
-	public MessageTag() {
-		super(MessageTag.class);
+	public LabelTag() {
+		super(LabelTag.class);
 		parameter = new HashMap<String, Object>();
 	}
 
@@ -69,9 +71,9 @@ public class MessageTag extends AbstractBodyRenderingTag implements ParameterTag
 	}
 
 	/**
-	 * メッセージ名を設定する。
+	 * ラベル名を設定する。
 	 * 
-	 * @param aName メッセージ名
+	 * @param aName ラベル名
 	 */
 	public final void setName(final String aName) {
 		name = aName;
@@ -97,29 +99,29 @@ public class MessageTag extends AbstractBodyRenderingTag implements ParameterTag
 	}
 
 	/**
-	 * メッセージ名を取得する。
+	 * ラベル名を取得する。
 	 * 
-	 * @return メッセージ名
+	 * @return ラベル名
 	 */
 	protected final String getName() {
 		return name;
 	}
 
 	@Override
-	protected void doRendering(final StringBuffer aReader) throws JspException {
+	protected void doRendering(final StringBuffer aRender) throws JspException {
 		String ns = getNamespace();
 		String nm = getName();
 
-		Message msg = null;
+		Label lbl = null;
 		if (StringUtility.isNotEmpty(ns)) {
-			msg = MessageFactory.create(ns, nm);
+			lbl = LabelFactory.create(ns, nm);
 		} else {
-			msg = MessageFactory.create(nm);
+			lbl = LabelFactory.create(nm);
 		}
 
-		if (null != msg) {
-			String str = msg.generate(parameter);
-			aReader.append(toStringEscapeHTML(str));
+		if (null != lbl) {
+			String str = lbl.generate(parameter);
+			aRender.append(toStringEscapeHTML(str));
 		}
 	}
 

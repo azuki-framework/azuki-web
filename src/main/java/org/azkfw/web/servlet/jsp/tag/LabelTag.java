@@ -22,11 +22,10 @@ import java.util.Map;
 
 import javax.servlet.jsp.JspException;
 
-import jp.azkfw.servlet.jsp.tag.AbstractBodyRenderingTag;
-import jp.azkfw.servlet.jsp.tag.base.ParameterTagSupport;
-
 import org.azkfw.business.label.Label;
 import org.azkfw.business.label.LabelFactory;
+import org.azkfw.servlet.jsp.tag.AbstractBodyRenderingTag;
+import org.azkfw.servlet.jsp.tag.base.ParameterTagSupport;
 import org.azkfw.util.StringUtility;
 
 /**

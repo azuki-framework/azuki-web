@@ -18,7 +18,7 @@
 
 	<groupId>org.azkfw</groupId>
 	<artifactId>azuki-web</artifactId>
-	<version>1.4.4</version>
+	<version>1.4.5-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>azuki-web</name>
@@ -57,7 +57,7 @@
 		<dependency>
 			<groupId>org.azkfw</groupId>
 			<artifactId>azuki-servlet</artifactId>
-			<version>1.4.4</version>
+			<version>1.4.5</version>
 		</dependency>
 		
 		<dependency>

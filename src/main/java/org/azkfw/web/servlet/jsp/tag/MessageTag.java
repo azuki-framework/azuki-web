@@ -22,8 +22,8 @@ import java.util.Map;
 
 import javax.servlet.jsp.JspException;
 
-import jp.azkfw.servlet.jsp.tag.AbstractBodyRenderingTag;
-import jp.azkfw.servlet.jsp.tag.base.ParameterTagSupport;
+import org.azkfw.servlet.jsp.tag.AbstractBodyRenderingTag;
+import org.azkfw.servlet.jsp.tag.base.ParameterTagSupport;
 
 import org.azkfw.business.message.Message;
 import org.azkfw.business.message.MessageFactory;

@@ -17,8 +17,7 @@
  */
 package org.azkfw.web.servlet.jsp.tag.html;
 
-import jp.azkfw.servlet.jsp.tag.html.AbstractHtmlTag;
-
+import org.azkfw.servlet.jsp.tag.html.AbstractHtmlTag;
 import org.azkfw.web.constant.WebConstant;
 
 /**

@@ -27,7 +27,7 @@ import javax.servlet.ServletContext;
  * @author Kawakicchi
  * 
  */
-public final class WebContext extends jp.azkfw.servlet.ServletContext {
+public final class WebContext extends org.azkfw.servlet.ServletContext {
 
 	/**
 	 * コンストラクタ

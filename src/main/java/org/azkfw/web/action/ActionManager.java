@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.digester3.Digester;
+import org.apache.commons.digester.Digester;
 import org.azkfw.business.manager.AbstractManager;
 import org.azkfw.context.Context;
 import org.azkfw.persistence.entity.Entity;
@@ -131,7 +131,7 @@ public final class ActionManager extends AbstractManager {
 				digester.addObjectCreate("azuki/action-list/action", ActionEntity.class);
 				digester.addSetProperties("azuki/action-list/action");
 				digester.addSetNext("azuki/action-list/action", "add");
-				as = digester.parse(aStream);
+				as = (List<ActionEntity>)digester.parse(aStream);
 			} catch (SAXException ex) {
 				error(ex);
 				throw new IOException(ex);

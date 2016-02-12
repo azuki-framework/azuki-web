@@ -19,9 +19,8 @@ package org.azkfw.web.action;
 
 import java.sql.SQLException;
 
-import org.azkfw.persistence.database.DatabaseConnection;
-import org.azkfw.persistence.database.DatabaseConnectionManager;
-import org.azkfw.persistence.database.DatabaseSource;
+import org.azkfw.business.database.DatabaseConnection;
+import org.azkfw.database.DatabaseManager;
 
 /**
  * このクラスは、データベース機能を実装するアクションクラスです。
@@ -32,85 +31,50 @@ import org.azkfw.persistence.database.DatabaseSource;
  */
 public abstract class AbstractDatabaseAction extends AbstractPersistenceAction {
 
-	/**
-	 * データベースソース
-	 */
-	private DatabaseSource source;
-
-	/**
-	 * コネクション
-	 */
-	private DatabaseConnection myConnection;
+	/** Database */
+	private DatabaseConnection connection;
 
 	/**
 	 * コンストラクタ
 	 */
 	public AbstractDatabaseAction() {
-		super();
+
 	}
 
 	/**
 	 * コンストラクタ
 	 * 
-	 * @param aName 名前
+	 * @param name 名前
 	 */
-	public AbstractDatabaseAction(final String aName) {
-		super(aName);
+	public AbstractDatabaseAction(final String name) {
+		super(name);
 	}
 
 	/**
 	 * コンストラクタ
 	 * 
-	 * @param aClass クラス
+	 * @param clazz クラス
 	 */
-	public AbstractDatabaseAction(final Class<?> aClass) {
-		super(aClass);
+	public AbstractDatabaseAction(final Class<?> clazz) {
+		super(clazz);
 	}
-
-	@Override
-	protected void doBeforeAction() {
-		super.doBeforeAction();
-		// TODO Write doBeforeExecute code.
-
-	}
-
-	@Override
-	protected void doAfterAction() {
-		try {
-			if (null != myConnection) {
-				myConnection.getConnection().commit();
-			}
-		} catch (SQLException ex) {
-			fatal(ex);
-		}
-		if (null != source && null != myConnection) {
-			try {
-				source.returnConnection(myConnection);
-			} catch (SQLException ex) {
-				warn(ex);
-			}
-			myConnection = null;
-			source = null;
-		}
-
-		super.doAfterAction();
-	}
-
+	
 	/**
 	 * コネクションを取得する。
 	 * 
 	 * @return コネクション
-	 * @throws SQL実行時に問題が発生した場合
+	 * @throws SQLException SQL操作に起因する問題が発生した場合
 	 */
 	protected final DatabaseConnection getConnection() throws SQLException {
-		if (null == myConnection) {
-			source = DatabaseConnectionManager.getSource();
-			myConnection = source.getConnection();
-			if (null != myConnection) {
-				myConnection.getConnection().setAutoCommit(false);
+		try {
+			if (null == connection) {
+				connection = new DatabaseConnection(DatabaseManager.getInstance().getConnection());
+				connection.getConnection().setAutoCommit(false);
 			}
+		} catch (SQLException ex) {
+			throw ex;
 		}
-		return myConnection;
+		return connection;
 	}
 
 	/**
@@ -135,5 +99,31 @@ public abstract class AbstractDatabaseAction extends AbstractPersistenceAction {
 		if (null != connection) {
 			connection.getConnection().rollback();
 		}
+	}
+
+	@Override
+	protected void doBeforeAction() {
+		super.doBeforeAction();
+		// TODO Write doBeforeAction code.
+
+	}
+
+	@Override
+	protected void doAfterAction() {
+		if (null != connection) {
+			try {
+				connection.getConnection().commit();
+			} catch (SQLException ex) {
+				fatal(ex);
+			}
+			try {
+				connection.getConnection().close();
+			} catch (SQLException ex) {
+				fatal(ex);
+			}
+			connection = null;
+		}
+
+		super.doAfterAction();
 	}
 }
